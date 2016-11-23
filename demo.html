@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Vibrance Demo</title>
+    <script src="src/vibrance.js" charset="utf-8"></script>
+  </head>
+  <body>
+
+    <img id="input" src="swamp.jpg" style="float: left; max-width: 40%;"/>
+    <div style="float: left; text-align: center;padding:0 10px;">
+      <button onclick="update('lighter', 0.1)">Lighter</button><br/>
+      <button onclick="update('darker', 0.1)">Darker</button><br/>
+      <button onclick="update('saturate', 0.1)">Saturate</button><br/>
+      <button onclick="update('desaturate', 0.1)">Desaturate</button><br/>
+      <button onclick="update('rotate', 0.0833333)">Rotate +30°</button><br/>
+      <button onclick="update('rotate', -0.0833333)">Rotate -30°</button><br/>
+      <button onclick="update('reset')">Reset</button>
+    </div>
+    <canvas id="output" style="float: left; max-width: 40%;"/>
+
+    <script>
+      var pic = false;
+      function update(action, amount) {
+        if (!pic) {
+          var input = document.getElementById('input');
+          input.crossOrigin = '';
+          pic = new Vibrance.Picture(input);
+        }
+
+        pic[action].call(pic, amount);
+
+        var canvas = document.getElementById('output');
+        canvas.width = pic.width;
+        canvas.height = pic.height;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(pic.toCanvas(), 0, 0);
+      }
+    </script>
+  </body>
+</html>
